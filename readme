@@ -1,0 +1,32 @@
+This is a template I use to create bare metal projects for the SAMD21 (SAMD21G18A) with VSCode
+
+I have tested this with the Adafruit Metro Express, and Seeed Studio XIAO SAMD21(Seeeduino XIAO).
+
+I am in no way an expert with this, so use this at your own risk. 
+
+You will need to change the following:
+
+CMAKE_FIND_ROOT_PATH
+ASF_ROOT_PATH
+
+To match you system.
+
+You may also have to change a few other things if you're not using a mac. 
+
+This might not even work for you, idk.
+
+If it doesnt work for you, let me know, and I will try to help you out. 
+
+
+A few other notes:
+
+I am using VS Code on Mac
+I am not using PlatformIO
+This project does not use arduino libraries
+
+Requirments:
+Microchip ASF
+ARM GNU Toolchain
+Ninja - https://ninja-build.org/
+Cmake
+Maybe some other things, who knows. 

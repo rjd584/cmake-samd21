@@ -1,5 +1,6 @@
 #include "uart.h"
 
+
 void Uart_init(void) {
     uint32_t baud = 9600;
     uint64_t br = (uint64_t)65536 * (F_CPU - 16 * baud) / F_CPU;  // Variable for baud rate
@@ -59,6 +60,7 @@ void SERCOM3_Handler() {
 
     if (SERCOM3->USART.INTFLAG.bit.RXC) {
         uint16_t rxData = SERCOM3->USART.DATA.reg;
+        
 
         Uart_write(rxData);
         return;

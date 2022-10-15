@@ -16,8 +16,7 @@ void Uart_init(void) {
     PORT->Group[0].PMUX[RXPIN / 2].bit.PMUXO = PORT_PMUX_PMUXE_C_Val;  // Set the PMUX bit (if pin is even, PMUXE, if odd, PMUXO)
 
     SERCOM3->USART.CTRLA.bit.SWRST = 1;
-    while (SERCOM3->USART.CTRLA.bit.SWRST || SERCOM3->USART.SYNCBUSY.bit.SWRST)
-        ;  // Wait for Sync
+    while (SERCOM3->USART.CTRLA.bit.SWRST || SERCOM3->USART.SYNCBUSY.bit.SWRST) {}
 
     PM->APBCMASK.reg |= PM_APBCMASK_SERCOM3;  // Set the PMUX for SERCOM3 and turn on module in PM
 
@@ -41,12 +40,13 @@ void Uart_init(void) {
 }
 
 void Uart_write_raw(const uint16_t data) {
-    while (SERCOM3->USART.INTFLAG.bit.DRE == 0);  // wait for TX data empty
+    while (SERCOM3->USART.INTFLAG.bit.DRE == 0) {}
     SERCOM3->USART.DATA.reg = data;
 }
 
 void Uart_write(char c) {
-    while (!(SERCOM3->USART.INTFLAG.reg & SERCOM_USART_INTFLAG_DRE));
+    while (!(SERCOM3->USART.INTFLAG.reg & SERCOM_USART_INTFLAG_DRE)) {
+    }
     SERCOM3->USART.DATA.reg = c;
 }
 
@@ -56,6 +56,7 @@ void Uart_write_string(char *s) {
 }
 
 void SERCOM3_Handler() {
+
     if (SERCOM3->USART.INTFLAG.bit.RXC) {
         uint16_t rxData = SERCOM3->USART.DATA.reg;
 
@@ -63,3 +64,4 @@ void SERCOM3_Handler() {
         return;
     }
 }
+

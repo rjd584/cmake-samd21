@@ -5,7 +5,7 @@
 
 int main(void) {
     SystemInit();
-    uart_init();
+    Uart_init();
     // Blink LED
 
     while (1) {

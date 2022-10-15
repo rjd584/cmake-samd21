@@ -34,7 +34,7 @@ SET ( CMAKE_CXX_STANDARD 17 )
 
 SET ( ARM_CPU cortex-m0plus )
 SET ( ARM_UPLOADTOOL bossac )
-SET ( ARM_UPLOADTOOL_PORT tty.usbmodem14501 )
+SET ( ARM_UPLOADTOOL_PORT tty.usbmodem14401 )
 SET ( ARM_PROGRAMMER cmsis-dap )
 SET ( ARM_SIZE_ARGS -B)
 
@@ -82,6 +82,7 @@ function (add_sam_executable EXECUTABLE_NAME)
 		PUBLIC ${CMSIS_INC_DIR}
 		PUBLIC ${SAMD21_SRC_DIR}
 		PUBLIC ${PROJECT_SOURCE_DIR}
+		PUBLIC "include/"
 	)
 
 	set_target_properties (

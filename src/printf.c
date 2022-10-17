@@ -27,7 +27,6 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
             switch (ch = *fmt++) {
                 /* %% - print out a single %    */
                 case '%':
-                    // fputc('%', file);
                     _out_raw('%');
                     length++;
                     break;
@@ -36,14 +35,12 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
                 case 'c':
                     char_temp = va_arg(arg, int);
                     _out_raw(char_temp);
-                    // fputc(char_temp, file);
                     length++;
                     break;
 
                 /* %s: print out a string       */
                 case 's':
                     string_temp = va_arg(arg, char *);
-                    // fputs(string_temp, file);
                     _out_string(string_temp);
                     length += strlen(string_temp);
                     break;
@@ -52,7 +49,6 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
                 case 'd':
                     int_temp = va_arg(arg, int);
                     itoa(int_temp, buffer, 10);
-                    // fputs(buffer, file);
                     _out_string(buffer);
                     length += strlen(buffer);
                     break;
@@ -61,7 +57,6 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
                 case 'x':
                     int_temp = va_arg(arg, int);
                     itoa(int_temp, buffer, 16);
-                    // fputs(buffer, file);
                     _out_string(buffer);
                     length += strlen(buffer);
                     break;
@@ -69,7 +64,6 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
                 case 'f':
                     double_temp = va_arg(arg, double);
                     ftoa_fixed(buffer, double_temp);
-                    // fputs(buffer, file);
                     _out_string(buffer);
                     length += strlen(buffer);
                     break;
@@ -77,13 +71,11 @@ int my_vfprintf(FILE *file, char const *fmt, va_list arg) {
                 case 'e':
                     double_temp = va_arg(arg, double);
                     ftoa_sci(buffer, double_temp);
-                    // fputs(buffer, file);
                     _out_string(buffer);
                     length += strlen(buffer);
                     break;
             }
         } else {
-            // putc(ch, file);
             _out_raw(ch);
             length++;
         }

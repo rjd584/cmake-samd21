@@ -1,6 +1,6 @@
 #include "uart.h"
+#include <string.h>
 
-// static mystdout = FDEV_SETUP_STREAM (uart_putchar, NULL, _FDEV_SETUP_WRITE);
 receivedDataCallback _receivedDataCallback; 
 char rData[RECEIVE_BUFFER_SIZE]; //The receive buffer
 uint8_t rIndex;                  //buffer index

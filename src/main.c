@@ -3,6 +3,7 @@
 #include "printf.h"
 #include "uart.h"
 #include "utilities.h"
+#include "storage.h"
 
 #define TURN_LEFT 0x02
 #define TURN_RIGHT 0x03

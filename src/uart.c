@@ -1,7 +1,11 @@
 #include "uart.h"
 
+// static mystdout = FDEV_SETUP_STREAM (uart_putchar, NULL, _FDEV_SETUP_WRITE);
+receivedDataCallback _receivedDataCallback; 
+char rData[RECEIVE_BUFFER_SIZE]; //The receive buffer
+uint8_t rIndex;                  //buffer index
 
-void Uart_init(void) {
+void Uart_init(receivedDataCallback ptr_callback) {
     uint32_t baud = 9600;
     uint64_t br = (uint64_t)65536 * (F_CPU - 16 * baud) / F_CPU;  // Variable for baud rate
 
@@ -38,6 +42,8 @@ void Uart_init(void) {
     NVIC_EnableIRQ(SERCOM3_IRQn);
 
     // while(SERCOM3->USART.SYNCBUSY.bit.ENABLE) ;
+    _receivedDataCallback = ptr_callback;
+    resetInputBuffer();
 }
 
 void Uart_write_raw(const uint16_t data) {
@@ -51,19 +57,46 @@ void Uart_write(char c) {
     SERCOM3->USART.DATA.reg = c;
 }
 
-void Uart_write_string(char *s) {
+void Uart_write_string(const char *s) {
     while (*s)
         Uart_write(*s++);
 }
 
+
+void resetInputBuffer(){
+    rIndex = 0;
+    memset(rData, 0, sizeof(rData));
+}
+
 void SERCOM3_Handler() {
+    if (SERCOM3->USART.INTFLAG.reg & SERCOM_USART_INTFLAG_RXC) {
+        char rxChar = SERCOM3->USART.DATA.reg;
 
-    if (SERCOM3->USART.INTFLAG.bit.RXC) {
-        uint16_t rxData = SERCOM3->USART.DATA.reg;
-        
+        if(rIndex >= sizeof(rData)){
+            resetInputBuffer();
+            my_printf(RX_BUFFER_OVERFLOW_MSG, "\r\n");
+            return;
+        }
 
-        Uart_write(rxData);
-        return;
+        switch (rxChar) {
+            case RX_SOT:
+                rData[rIndex] = rxChar;
+                rIndex++;
+                break;
+            case RX_EOT:
+                rData[rIndex] = rxChar;
+                _receivedDataCallback(rData);
+                resetInputBuffer();
+                break;
+            default:
+                if (rIndex > 0) {
+                    rData[rIndex] = rxChar;
+                    rIndex++;
+                } else {
+                    resetInputBuffer();
+                }
+                break;
+        }
     }
 }
 

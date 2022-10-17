@@ -25,6 +25,7 @@ SET ( SAMD21_SRC_DIR        "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source")
 SET ( SAMD21_STARTUP        "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c")
 SET ( SAMD21_SYSTEM         "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source/system_samd21.c")
 
+SET ( CXX_LIBRARY            "/Library/Developer/CommandLineTools/usr/include/c++/v1")
 SET ( PROJECT_SOURCE_DIR "src/")
    
 SET ( SAMD21_LINKER         "../device/samd21g18a.ld")
@@ -34,7 +35,7 @@ SET ( CMAKE_CXX_STANDARD 17 )
 
 SET ( ARM_CPU cortex-m0plus )
 SET ( ARM_UPLOADTOOL bossac )
-SET ( ARM_UPLOADTOOL_PORT tty.usbmodem14401 )
+SET ( ARM_UPLOADTOOL_PORT tty.usbmodem14501 )
 SET ( ARM_PROGRAMMER cmsis-dap )
 SET ( ARM_SIZE_ARGS -B)
 
@@ -88,7 +89,7 @@ function (add_sam_executable EXECUTABLE_NAME)
 	set_target_properties (
       ${ELF_OUTPUT_FILE}
       PROPERTIES
-	  COMPILE_FLAGS  "-mcpu=${ARM_CPU} -mthumb -Wall -Werror -g -ffunction-sections -fdata-sections -nostdlib -nostartfiles --param max-inline-insns-single=500 -Os -DDEBUG=0 -D__SAMD21G18A__ -D SYSTICK_MODE -D__${BOARD_NAME}__"  #-DBOARD=USER_BOARD -DUSB_PID_HIGH=0x00 -DUSB_PID_LOW=0x4D -DUSB_VID_LOW=0x41 -DUSB_VID_HIGH=0x23"
+	  COMPILE_FLAGS  "-mcpu=${ARM_CPU} -mthumb -Wall -Werror -g -ffunction-sections -fdata-sections -nostdlib -nostartfiles --param max-inline-insns-single=500 -Os -DDEBUG=0 -D__SAMD21G18A__ -D SYSTICK_MODE -D__${BOARD_NAME}__ -Wno-unused-but-set-variable -Wno-unused-variable"  #-DBOARD=USER_BOARD -DUSB_PID_HIGH=0x00 -DUSB_PID_LOW=0x4D -DUSB_VID_LOW=0x41 -DUSB_VID_HIGH=0x23"
 	  LINK_FLAGS     "-mcpu=${ARM_CPU} -mthumb -Wall -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -save-temps -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--warn-unresolved-symbols --specs=nano.specs --specs=nosys.specs -Wl,-Map,${MAP_OUTPUT_FILE} -Wl,--start-group -lm -Wl,--end-group -T ${SAMD21_LINKER}"
     )
 

@@ -15,6 +15,9 @@ add_sam_executable("cmake-samd21"
         "src/main.c" 
         "src/uart.c" 
         "src/printf.c"
-        "src/storage.c")
+        "src/storage.c"
+        "lib/fatfs-r0.09/src/ff.c"
+        "lib/fatfs-r0.09/src/diskio.c"
+        )
 
 

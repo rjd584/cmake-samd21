@@ -24,6 +24,7 @@ SET ( SAMD21_INC_DIR        "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/include" )
 SET ( SAMD21_SRC_DIR        "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source")
 SET ( SAMD21_STARTUP        "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source/gcc/startup_samd21.c")
 SET ( SAMD21_SYSTEM         "${ASF_ROOT_PATH}/sam0/utils/cmsis/samd21/source/system_samd21.c")
+SET ( FATFS_INCLUDE_DIR     "lib/fatfs-r0.09/src")
 
 SET ( CXX_LIBRARY            "/Library/Developer/CommandLineTools/usr/include/c++/v1")
 SET ( PROJECT_SOURCE_DIR "src/")
@@ -83,6 +84,8 @@ function (add_sam_executable EXECUTABLE_NAME)
 		PUBLIC ${CMSIS_INC_DIR}
 		PUBLIC ${SAMD21_SRC_DIR}
 		PUBLIC ${PROJECT_SOURCE_DIR}
+		PUBLIC ${FATFS_INCLUDE_DIR}
+		PUBLIC "${FATFS_INCLUDE_DIR}/module_config_1"
 		PUBLIC "include/"
 	)
 

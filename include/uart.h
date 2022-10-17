@@ -2,8 +2,6 @@
 #define UART_H
 
 #include <samd21.h>
-#include "printf.h"
-
 
 #define RXPIN PIN_PA23
 #define TXPIN PIN_PA22

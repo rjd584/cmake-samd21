@@ -1,11 +1,20 @@
 #include <samd21.h>
+
+#include "printf.h"
 #include "uart.h"
 #include "utilities.h"
-#include "printf.h"
 
+#define TURN_LEFT 0x02
+#define TURN_RIGHT 0x03
 
-void receivedDataHandler(char* data){
+void receivedDataHandler(char* data) {
     switch (data[1]) {
+        case TURN_LEFT:
+            my_printf("Turning Left\r\n");
+            break;
+        case TURN_RIGHT:
+            my_printf("Turning Right\r\n");;
+            break;
         default:
             my_printf("Unknown Command\r\n");
             break;
@@ -27,9 +36,7 @@ int main(void) {
     return 0;
 }
 
-
-
-void HardFault_Handler(){
+void HardFault_Handler() {
     int counter = 0;
     while (counter < 20) {
         delayMs(2000);
@@ -38,5 +45,4 @@ void HardFault_Handler(){
         counter++;
     }
     NVIC_SystemReset();
-
 }

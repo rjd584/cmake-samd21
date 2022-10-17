@@ -62,7 +62,6 @@ void Uart_write_string(const char *s) {
         Uart_write(*s++);
 }
 
-
 void resetInputBuffer(){
     rIndex = 0;
     memset(rData, 0, sizeof(rData));
@@ -74,7 +73,7 @@ void SERCOM3_Handler() {
 
         if(rIndex >= sizeof(rData)){
             resetInputBuffer();
-            my_printf(RX_BUFFER_OVERFLOW_MSG, "\r\n");
+            Uart_write_string(RX_BUFFER_OVERFLOW_MSG "\r\n");
             return;
         }
 
